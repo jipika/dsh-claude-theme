@@ -1,0 +1,44 @@
+{
+  "name": "dsh-claude-theme",
+  "version": "0.1.0",
+  "description": "Claude warm-ivory appearance for DeepSeek Harness: color tokens + serif typography, extracted verbatim from dsh-animation-optimization. Appearance only — no behavioral layer, so it coexists with dsh-smooth-stream.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jipika/dsh-claude-theme.git"
+  },
+  "homepage": "https://github.com/jipika/dsh-claude-theme#readme",
+  "bugs": {
+    "url": "https://github.com/jipika/dsh-claude-theme/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "theme",
+    "appearance",
+    "claude",
+    "serif",
+    "color-tokens"
+  ],
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "private": true
+}
