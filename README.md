@@ -8,6 +8,10 @@
 
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
+> **拥有**：`--dsw-alias-*` 全套配色 token（light + dark 两份）与衬线字体层（`--dsw-font-*`）。
+> **冲突时**：与 `dsh-ui-harmonizer` 同写 alias token —— 本插件是完整皮肤，以本插件为准；harmonizer 只应保留「官方缺陷归一」那部分。
+> **回滚**：删 profile `cordis.patch.yml` 里 id `claude-theme` 的 insert + 重启应用。
+
 ---
 
 ## 装了什么
