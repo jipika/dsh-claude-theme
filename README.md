@@ -18,9 +18,15 @@
 
 - `COLOR_CSS` 覆盖一整套 `--dsw-alias-*` token，含 light 与 `[data-ds-dark-theme]` 两套。
 - `FONT_CSS` 用 `SERIF`（Anthropic Serif → Tiempos → Georgia → 宋体）作用于标题 / 路径面包屑 / 引用 / headline。
-- 两者的规则都自带 `body:not([data-dsh-colors=off])` / `body:not([data-dsh-font=off])` 前缀，
-  而 body 上不会出现这两个 off 属性，所以**装了就是全量生效，没有开关**。
-- 注入是幂等的：`<style data-dsh-claude-theme>` 已存在就跳过。
+- `SURFACE_CSS`（自有修补）：把浮层表面改成**实色** —— 覆盖 `--dsw-menu-surface-fill` 与
+  `--dsw-menu-backdrop-filter`，模型选择 / 右键菜单这类 `MenuSurface` 卡片不再半透明透字
+  （官方默认 light 只有 `#f8f9fa94` = 58% 白 + `blur(40px) saturate(150%)` 毛玻璃）。
+- `BADGE_CSS`（自有修补）：修「推荐」徽章橙底橙字不可见。
+- 以上规则的 `body:not([data-dsh-colors=off])` / `body:not([data-dsh-font=off])` 前缀只是沿用上游写法，
+  body 上不会出现这两个 off 属性，所以**装了就是全量生效，没有开关**（手动给 body 加上 `data-dsh-colors=off`
+  可临时关掉配色层，用于排查）。
+- 注入是幂等的：每次 `apply()` 先删掉所有 `style[data-dsh-claude-theme]` 再重新写入当前 CSS
+  （**不是**「标签已存在就 return」—— 那样在热重载下会跑成「新 JS + 旧 CSS」）。
 
 **未包含**：BASE_CSS（行为层：流式揭示 / 视口跟随 / 展开收起）、logo 层（星爆头像，靠 DOM 替换实现）、三个设置开关。
 
@@ -46,7 +52,8 @@ dsh plugin --profile <profile> add github:jipika/dsh-claude-theme
 `desktop` profile 被 Electron 独占（CLI 子命令会被拒），需手改 `package.json`（dependencies 加
 `github:jipika/dsh-claude-theme`）+ `pnpm install`，再 insert 同一行。
 
-**改 `lib/client.js` 后必须重启 host 进程**（刷新页面无效：client bundle 在启动时就读进内存了）。
+**改 `lib/client.js` 后让页面重新加载**：DSH 0.1.7 起 host 对 `client.js` 是磁盘热读，重新打开页面（一次新导航）
+就会加载新代码；若界面没变化，再重启 host 进程（⌘Q 重开应用）。注意 ⌘R 不触发新导航，改了等于没改。
 
 ## 卸载
 
