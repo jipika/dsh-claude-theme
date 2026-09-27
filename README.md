@@ -18,10 +18,10 @@
 
 - `COLOR_CSS` 覆盖一整套 `--dsw-alias-*` token，含 light 与 `[data-ds-dark-theme]` 两套。
 - `FONT_CSS` 用 `SERIF`（Anthropic Serif → Tiempos → Georgia → 宋体）作用于标题 / 路径面包屑 / 引用 / headline。
-- `SURFACE_CSS`（自有修补）：把浮层表面改成**实色** —— 覆盖 `--dsw-menu-surface-fill` 与
-  `--dsw-menu-backdrop-filter`，模型选择 / 右键菜单这类 `MenuSurface` 卡片不再半透明透字
-  （官方默认 light 只有 `#f8f9fa94` = 58% 白 + `blur(40px) saturate(150%)` 毛玻璃）。
 - `BADGE_CSS`（自有修补）：修「推荐」徽章橙底橙字不可见。
+- **菜单类浮层（模型选择 / 右键菜单）的表面样式一律不覆盖** —— 那是官方
+  `MenuSurface` 的 `.material`（`var(--dsw-menu-surface-fill)` 半透明填充 +
+  `var(--dsw-menu-backdrop-filter)` 毛玻璃），主题不去动这两个 token，菜单保持官方默认外观。
 - 以上规则的 `body:not([data-dsh-colors=off])` / `body:not([data-dsh-font=off])` 前缀只是沿用上游写法，
   body 上不会出现这两个 off 属性，所以**装了就是全量生效，没有开关**（手动给 body 加上 `data-dsh-colors=off`
   可临时关掉配色层，用于排查）。
@@ -64,7 +64,10 @@ dsh plugin --profile <profile> add github:jipika/dsh-claude-theme
 `lib/client.js` 里的 `SERIF` / `COLOR_CSS` / `FONT_CSS` 是**逐字切片**
 （`grep -n` 定位锚点 → 按行号取值 → 与源字符串逐字比对校验）自
 [`kelemiao/dsh-animation-optimization`](https://github.com/kelemiao/dsh-animation-optimization)
-（MIT）的 client half 第 53 / 199-377 / 533-556 行，**未做任何改写**；切片脚本是一次性工具，未随本仓库分发。
+（MIT）的 client half 第 53 / 199-377 / 533-556 行；切片脚本是一次性工具，未随本仓库分发。
+
+**与源唯一的差异**：`COLOR_CSS` 里 `--dsw-specific-menu` 的 light / dark 两行已删除 ——
+那是菜单类浮层（模型选择 / 右键菜单）的表面色，按用户要求交回官方默认，本主题不覆盖它。
 
 上游包是 MIT，本插件因此沿用 MIT 并在此声明出处。上游更新后行号会漂移，重新切片前请先核对锚点。
 
